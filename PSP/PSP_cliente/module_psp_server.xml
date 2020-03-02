@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_psp_server" default="compile.module.psp_server">
+  <dirname property="module.psp_server.basedir" file="${ant.file.module_psp_server}"/>
+  
+  <property name="module.jdk.home.psp_server" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.psp_server" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.psp_server" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.psp_server" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="psp_server.output.dir" value="${module.psp_server.basedir}/out/production/PSP_server"/>
+  <property name="psp_server.testoutput.dir" value="${module.psp_server.basedir}/out/test/PSP_server"/>
+  
+  <path id="psp_server.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="psp_server.module.production.classpath">
+    <path refid="${module.jdk.classpath.psp_server}"/>
+    <path refid="library.commons-net-3.6-sources.classpath"/>
+    <path refid="library.java-json.classpath"/>
+  </path>
+  
+  <path id="psp_server.runtime.production.module.classpath">
+    <pathelement location="${psp_server.output.dir}"/>
+    <path refid="library.commons-net-3.6-sources.classpath"/>
+    <path refid="library.java-json.classpath"/>
+  </path>
+  
+  <path id="psp_server.module.classpath">
+    <path refid="${module.jdk.classpath.psp_server}"/>
+    <pathelement location="${psp_server.output.dir}"/>
+    <path refid="library.commons-net-3.6-sources.classpath"/>
+    <path refid="library.java-json.classpath"/>
+  </path>
+  
+  <path id="psp_server.runtime.module.classpath">
+    <pathelement location="${psp_server.testoutput.dir}"/>
+    <pathelement location="${psp_server.output.dir}"/>
+    <path refid="library.commons-net-3.6-sources.classpath"/>
+    <path refid="library.java-json.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.psp_server">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.psp_server">
+    <patternset refid="excluded.from.module.psp_server"/>
+  </patternset>
+  
+  <path id="psp_server.module.sourcepath">
+    <dirset dir="${module.psp_server.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.psp_server" depends="compile.module.psp_server.production,compile.module.psp_server.tests" description="Compile module PSP_server"/>
+  
+  <target name="compile.module.psp_server.production" depends="register.custom.compilers" description="Compile module PSP_server; production classes">
+    <mkdir dir="${psp_server.output.dir}"/>
+    <javac2 destdir="${psp_server.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.psp_server}/javac">
+      <compilerarg line="${compiler.args.psp_server}"/>
+      <bootclasspath refid="psp_server.module.bootclasspath"/>
+      <classpath refid="psp_server.module.production.classpath"/>
+      <src refid="psp_server.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.psp_server"/>
+    </javac2>
+    
+    <copy todir="${psp_server.output.dir}">
+      <fileset dir="${module.psp_server.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.psp_server.tests" depends="register.custom.compilers,compile.module.psp_server.production" description="compile module PSP_server; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.psp_server" description="cleanup module">
+    <delete dir="${psp_server.output.dir}"/>
+    <delete dir="${psp_server.testoutput.dir}"/>
+  </target>
+</project>

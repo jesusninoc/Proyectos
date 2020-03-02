@@ -1,0 +1,14 @@
+La idea era crear un mega proyecto que englobara todos, pero por temas de fechas de entrega te lo tengo que enseñar por video.
+He credo un instalador que se descarga desde una app de angular y ya viene en .jar
+
+por otro lado, en un servidor aparte hay un SSL server corriendo escuchando todas las descargas que se hacen.
+
+una vez descargado se ejecuta y te pide un login, este login es sql y las llamadas se hacen por PHP
+- si es correcto, sql te devuelve un true y la contraseña del servidor FTP
+- luego te pide una ruta donde descargar el archivo
+- y posteriormente la ruta del certificado para la conexion SSL.
+
+Descarga el archivo .zip del FTP y una vez descargado lo descomprime, luego le envia por SSL al servidor la aplicacion descargada.
+
+Te adjunto el video del funcionamiento.
+Espero que esto de para el 10 :)
